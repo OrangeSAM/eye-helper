@@ -5,63 +5,85 @@ struct ContentView: View {
     @ObservedObject var timerManager: TimerManager
     
     var body: some View {
-        VStack(spacing: 20) {
+        VStack(spacing: 25) {
             if timerManager.showRestPrompt {
                 // 休息提示界面
                 Image(systemName: "eye.fill")
                     .imageScale(.large)
                     .foregroundStyle(.tint)
-                    .font(.system(size: 60))
+                    .font(.system(size: 70))
+                    .symbolEffect(.bounce)
+                    .padding(.bottom, 10)
                 
                 Text("该休息眼睛了！")
-                    .font(.title)
+                    .font(.system(size: 28, weight: .bold))
+                    .foregroundColor(.primary)
                     .padding(.vertical)
                 
                 Text("请看20英尺(约6米)远的物体20秒")
-                    .font(.headline)
+                    .font(.system(size: 18))
+                    .foregroundColor(.secondary)
                     .multilineTextAlignment(.center)
                     .padding(.bottom)
                 
                 Button("开始休息") {
-                    timerManager.showRestPrompt = false
-                    timerManager.isRestTime = true
-                    timerManager.timeRemaining = 20 // 20秒休息时间
-                    timerManager.startTimer()
+                    withAnimation {
+                        timerManager.showRestPrompt = false
+                        timerManager.isRestTime = true
+                        timerManager.timeRemaining = 20
+                        timerManager.startTimer()
+                    }
                 }
                 .buttonStyle(.borderedProminent)
                 .controlSize(.large)
+                .shadow(radius: 3)
             } else {
                 // 常规计时界面
                 Image(systemName: "eye")
                     .imageScale(.large)
                     .foregroundStyle(.tint)
-                    .font(.system(size: 40))
+                    .font(.system(size: 50))
+                    .symbolEffect(.pulse)
+                    .padding(.bottom, 5)
                 
                 Text("20-20-20 眼睛休息提醒")
-                    .font(.title)
+                    .font(.system(size: 24, weight: .bold))
+                    .foregroundColor(.primary)
                 
                 Text("剩余时间: \(timerManager.formattedTimeRemaining)")
-                    .font(.headline)
+                    .font(.system(size: 36, weight: .medium))
+                    .foregroundColor(.secondary)
+                    .monospacedDigit()
+                    .padding(.vertical)
                 
-                HStack(spacing: 20) {
+                HStack(spacing: 25) {
                     Button(timerManager.isRunning ? "暂停" : "开始") {
-                        if timerManager.isRunning {
-                            timerManager.pauseTimer()
-                        } else {
-                            timerManager.startTimer()
+                        withAnimation {
+                            if timerManager.isRunning {
+                                timerManager.pauseTimer()
+                            } else {
+                                timerManager.startTimer()
+                            }
                         }
                     }
                     .buttonStyle(.borderedProminent)
+                    .controlSize(.large)
                     
                     Button("重置") {
-                        timerManager.resetTimer()
+                        withAnimation {
+                            timerManager.resetTimer()
+                        }
                     }
                     .buttonStyle(.bordered)
+                    .controlSize(.large)
                 }
+                .padding(.top, 10)
             }
         }
-        .padding()
-        .frame(width: 500, height: 700)
+        .padding(30)
+        .frame(width: 400, height: 500)
+        .background(Color(NSColor.windowBackgroundColor))
+        .animation(.easeInOut, value: timerManager.showRestPrompt)
     }
 }
 //1. contentview 就是应用程序主体会显示的内容吗
