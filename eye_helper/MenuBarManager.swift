@@ -7,6 +7,14 @@ class MenuBarManager: NSObject {
     private var popover: NSPopover!
     private var timerManager: TimerManager
     
+    // 添加一个方法来显示弹窗
+    func showPopover() {
+        if let button = statusItem.button {
+            popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
+            NSApp.activate(ignoringOtherApps: true)
+        }
+    }
+    
     init(timerManager: TimerManager) {
         self.timerManager = timerManager
         super.init()

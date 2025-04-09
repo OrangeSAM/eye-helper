@@ -12,6 +12,7 @@ struct eye_helperApp: App {
                     // 初始化菜单栏管理器
                     if menuBarManager == nil {
                         menuBarManager = MenuBarManager(timerManager: timerManager)
+                        timerManager.setMenuBarManager(menuBarManager!)
                     }
                 }
         }
