@@ -3,7 +3,7 @@ import UserNotifications
 import AppKit
 
 class TimerManager: ObservableObject {
-    @Published var timeRemaining = 20 * 1 // 20分钟工作时间，以秒为单位
+    @Published var timeRemaining = 20 * 2 // 20分钟工作时间，以秒为单位
     @Published var isRunning = false
     @Published var isRestTime = false
     
@@ -15,7 +15,7 @@ class TimerManager: ObservableObject {
     }
     
     // 工作时间和休息时间的常量
-    private let workDuration = 20 * 1 // 20分钟 = 1200秒
+    private let workDuration = 20 * 2 // 20分钟 = 1200秒
     private let restDuration = 20      // 20秒
     
     var formattedTimeRemaining: String {
@@ -54,10 +54,14 @@ class TimerManager: ObservableObject {
             pauseTimer()
             
             if isRestTime {
-                // 休息结束，回到工作时间
+                // 休息结束，自动开始下一个工作周期
                 isRestTime = false
                 timeRemaining = workDuration // 20分钟工作时间
                 showNotification(title: "休息结束", body: "继续工作吧！")
+                isRunning = true
+                timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
+                    self?.updateTimer()
+                } // 确保启动新的工作周期
             } else {
                 // 工作结束，显示休息提示
                 showRestPrompt = true
