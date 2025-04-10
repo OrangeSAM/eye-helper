@@ -82,8 +82,23 @@ struct ContentView: View {
         }
         .padding(30)
         .frame(width: 400, height: 500)
-        .background(Color(NSColor.windowBackgroundColor))
+        .background(
+            timerManager.isRestTime ?
+            Color.green.opacity(0.1) : // 休息时使用淡绿色
+            Color(NSColor.windowBackgroundColor) // 工作时使用默认背景色
+        )
+        .overlay(
+            Text(timerManager.isRestTime ? "休息时间" : "工作时间")
+                .font(.system(size: 14))
+                .foregroundColor(.secondary)
+                .padding(8)
+                .background(Color.secondary.opacity(0.1))
+                .cornerRadius(8)
+                .padding(8),
+            alignment: .top
+        )
         .animation(.easeInOut, value: timerManager.showRestPrompt)
+        .animation(.easeInOut, value: timerManager.isRestTime)
     }
 }
 //1. contentview 就是应用程序主体会显示的内容吗
