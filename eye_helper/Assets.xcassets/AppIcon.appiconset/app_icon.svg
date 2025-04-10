@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景圆形 -->
+  <circle cx="512" cy="512" r="460" fill="#2196F3" />
+  
+  <!-- 眼睛外形 -->
+  <path d="M512 320c160 0 320 96 416 192-96 96-256 192-416 192S192 608 96 512c96-96 256-192 416-192z" fill="white" />
+  
+  <!-- 眼球 -->
+  <circle cx="512" cy="512" r="160" fill="#333" />
+  
+  <!-- 眼球高光 -->
+  <circle cx="432" cy="432" r="48" fill="white" />
+  
+  <!-- 装饰线条 -->
+  <path d="M96 512c96-96 256-192 416-192s320 96 416 192" fill="none" stroke="#1565C0" stroke-width="32" />
+  
+  <!-- 20-20-20提示标记 -->
+  <text x="512" y="750" font-family="Arial" font-size="80" fill="white" text-anchor="middle">20-20-20</text>
+</svg>

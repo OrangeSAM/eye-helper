@@ -3,7 +3,7 @@ import UserNotifications
 import AppKit
 
 class TimerManager: ObservableObject {
-    @Published var timeRemaining = 20 * 2 // 20分钟工作时间，以秒为单位
+    @Published var timeRemaining = 20 * 60 // 20分钟工作时间，以秒为单位
     @Published var isRunning = false
     @Published var isRestTime = false
     
@@ -15,7 +15,7 @@ class TimerManager: ObservableObject {
     }
     
     // 工作时间和休息时间的常量
-    private let workDuration = 20 * 2 // 20分钟 = 1200秒
+    private let workDuration = 20 * 60 // 20分钟 = 1200秒
     private let restDuration = 20      // 20秒
     
     var formattedTimeRemaining: String {
