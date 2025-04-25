@@ -9,6 +9,8 @@ class TimerManager: ObservableObject {
     
     private var timer: Timer?
     private weak var menuBarManager: MenuBarManager?
+    @Published var statistics = Statistics()
+    private var sessionStartTime: Date?
     
     func setMenuBarManager(_ manager: MenuBarManager) {
         self.menuBarManager = manager
@@ -28,6 +30,9 @@ class TimerManager: ObservableObject {
     
     func startTimer() {
         isRunning = true
+        if !isRestTime {
+            sessionStartTime = Date()
+        }
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
             self?.updateTimer()
         }
@@ -37,6 +42,12 @@ class TimerManager: ObservableObject {
         isRunning = false
         timer?.invalidate()
         timer = nil
+        
+        if !isRestTime, let startTime = sessionStartTime {
+            let focusInterval = Date().timeIntervalSince(startTime)
+            statistics.addFocusTime(focusInterval)
+            sessionStartTime = nil
+        }
     }
     
     func resetTimer() {
@@ -65,6 +76,7 @@ class TimerManager: ObservableObject {
             } else {
                 // 工作结束，显示休息提示
                 showRestPrompt = true
+                statistics.incrementRestCount()
                 menuBarManager?.showPopover()
                 showNotification(title: "休息时间", body: "请看20英尺(约6米)远的物体20秒")
             }

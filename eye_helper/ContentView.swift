@@ -78,10 +78,15 @@ struct ContentView: View {
                     .controlSize(.large)
                 }
                 .padding(.top, 10)
+                
+                Divider()
+                    .padding(.vertical)
+                
+                StatisticsView(timerManager: timerManager)
             }
         }
         .padding(30)
-        .frame(width: 400, height: 500)
+        .frame(width: 400, height: 600)
         .background(
             timerManager.isRestTime ?
             Color.green.opacity(0.1) : // 休息时使用淡绿色
